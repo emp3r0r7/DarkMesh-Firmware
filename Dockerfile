@@ -4,7 +4,7 @@
 # trunk-ignore-all(checkov/CKV_DOCKER_8): We must run as root for this container
 # trunk-ignore-all(hadolint/DL3002): We must run as root for this container
 
-FROM python:3.12-bookworm AS builder
+FROM python:3.14-bookworm AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 

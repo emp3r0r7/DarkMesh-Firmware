@@ -2,7 +2,7 @@
 # trunk-ignore-all(checkov/CKV_DOCKER_8): We must run as root for this container
 # trunk-ignore-all(hadolint/DL3002): We must run as root for this container
 
-FROM python:3.12-alpine3.21 AS builder
+FROM python:3.14-alpine3.21 AS builder
 
 ENV PIP_ROOT_USER_ACTION=ignore
 RUN apk add bash g++ libstdc++-dev linux-headers zip git ca-certificates libgpiod-dev yaml-cpp-dev bluez-dev \
