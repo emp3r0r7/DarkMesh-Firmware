@@ -22,7 +22,7 @@ RUN bash ./bin/build-native.sh && \
 
 # ##### PRODUCTION BUILD #############
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 # nosemgrep: dockerfile.security.last-user-is-root.last-user-is-root
 USER root
