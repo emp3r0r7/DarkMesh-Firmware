@@ -82,7 +82,7 @@ jobs:
           depends: libyaml-cpp0.7, openssl, libulfius2.7, libi2c0
           desc: Native Linux Meshtastic binary.
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: meshtasticd_${{ steps.version.outputs.long }}_armhf.deb
           overwrite: true

@@ -233,7 +233,7 @@ jobs:
         run: mv -b -t ./ ./bin/device-*.sh ./bin/device-*.bat
 
       - name: Repackage in single firmware zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: firmware-${{matrix.arch}}-${{ steps.version.outputs.long }}
           overwrite: true
@@ -269,7 +269,7 @@ jobs:
         run: zip -j -9 -r ./firmware-${{matrix.arch}}-${{ steps.version.outputs.long }}.zip ./output
 
       - name: Repackage in single elfs zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: debug-elfs-${{matrix.arch}}-${{ steps.version.outputs.long }}.zip
           overwrite: true
