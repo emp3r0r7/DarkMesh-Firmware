@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkMesh Firmware Downloads</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #D32F2F;
+            text-align: center;
+            padding: 16px 8px;
+            color: white;
+            border-bottom: 2px solid #B71C1C;
+        }
+
+        header img {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        header h1 {
+            margin: 8px 0 0 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px 15px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .intro {
+            background-color: #1E1E1E;
+            border: 1px solid #2C2C2C;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .intro h2 {
+            color: #76FF03;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .subtitle {
+            color: #9E9E9E;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .selector {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #76FF03;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            font-family: 'Roboto Mono', monospace;
+            border: 1px solid #2C2C2C;
+            border-radius: 8px;
+            background: #1E1E1E;
+            color: #E0E0E0;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: #76FF03;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .download-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #2C2C2C;
+        }
+
+        .file-list {
+            display: none;
+        }
+
+        .file-list.visible {
+            display: block;
+        }
+
+        .file-item {
+            background-color: #1E1E1E;
+            border: 1px solid #2C2C2C;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .file-item:hover {
+            border-color: #76FF03;
+        }
+
+        .file-name {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: #B0BEC5;
+        }
+
+        .download-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .download-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .loading, .no-files {
+            text-align: center;
+            color: #9E9E9E;
+            padding: 20px;
+        }
+
+        .no-files {
+            display: none;
+        }
+
+        .no-files.visible {
+            display: block;
+        }
+
+        .error {
+            background: #E53935;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error.visible {
+            display: block;
+        }
+
+        .info-box {
+            background-color: #1E1E1E;
+            border-left: 6px solid #2196F3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #E0E0E0;
+        }
+
+        a {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+            .intro {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/dmlogo4.png" alt="DarkMesh Logo">
+        <h1>DarkMesh</h1>
+    </header>
+
+    <main>
+        <div class="intro">
+            <h2>FIRMWARE DOWNLOADS</h2>
+            <p class="subtitle">Select your device and download the firmware</p>
+
+            <div class="info-box" id="infoBox">
+                <strong>ℹ️ Note:</strong> Select your device model first, then choose the firmware version.
+            </div>
+
+            <div class="error" id="errorBox"></div>
+
+            <div class="selector">
+                <label for="deviceSelect">Device Model</label>
+                <select id="deviceSelect">
+                    <option value="">-- Select Device --</option>
+                </select>
+            </div>
+
+            <div class="selector">
+                <label for="versionSelect">Firmware Version</label>
+                <select id="versionSelect" disabled>
+                    <option value="">Select a device first</option>
+                </select>
+            </div>
+
+            <div class="download-section">
+                <div class="loading" id="loadingMsg">Select a device and version to see available downloads</div>
+                <div class="no-files" id="noFilesMsg">No firmware files found for this combination</div>
+                <div class="file-list" id="fileList"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const REPO_OWNER = 'TommasoLencioni';
+        const REPO_NAME = 'DarkMesh-Firmware';
+        const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`;
+
+        let releases = [];
+        let currentDevice = null;
+        let currentRelease = null;
+        let availableDevices = new Set();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadReleases();
+            extractAvailableDevices();
+            populateDeviceSelect();
+            setupEventListeners();
+        });
+
+        async function loadReleases() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Failed to fetch releases');
+
+                releases = await response.json();
+
+                if (releases.length === 0) {
+                    showError('No releases found. Please create a release first.');
+                    return;
+                }
+            } catch (error) {
+                showError(`Error loading releases: ${error.message}`);
+            }
+        }
+
+        function extractAvailableDevices() {
+            // Scan all releases and extract device names from zip filenames
+            releases.forEach(release => {
+                release.assets.forEach(asset => {
+                    // Match pattern: devicename-version.zip
+                    const match = asset.name.match(/^(.+?)-\d+\.\d+\.\d+\..+\.zip$/);
+                    if (match) {
+                        availableDevices.add(match[1]);
+                    }
+                });
+            });
+        }
+
+        function formatDeviceName(deviceKey) {
+            // Convert device key to human-readable name
+            return deviceKey
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function populateDeviceSelect() {
+            const select = document.getElementById('deviceSelect');
+            select.innerHTML = '<option value="">-- Select Device --</option>';
+
+            // Sort devices alphabetically
+            const sortedDevices = Array.from(availableDevices).sort();
+
+            sortedDevices.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device;
+                option.textContent = formatDeviceName(device);
+                select.appendChild(option);
+            });
+
+            if (sortedDevices.length === 0) {
+                select.innerHTML = '<option value="">No devices found</option>';
+                select.disabled = true;
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('deviceSelect').addEventListener('change', onDeviceChange);
+            document.getElementById('versionSelect').addEventListener('change', onVersionChange);
+        }
+
+        function onDeviceChange(e) {
+            currentDevice = e.target.value;
+            const versionSelect = document.getElementById('versionSelect');
+
+            if (!currentDevice) {
+                versionSelect.disabled = true;
+                versionSelect.innerHTML = '<option value="">Select a device first</option>';
+                hideFiles();
+                return;
+            }
+
+            populateVersionsForDevice(currentDevice);
+            versionSelect.disabled = false;
+        }
+
+        function populateVersionsForDevice(device) {
+            const select = document.getElementById('versionSelect');
+            select.innerHTML = '<option value="">-- Select Version --</option>';
+
+            // Filter releases that have assets for this device
+            const releasesWithDevice = releases.filter(release =>
+                release.assets.some(asset => asset.name.includes(device))
+            );
+
+            if (releasesWithDevice.length === 0) {
+                select.innerHTML = '<option value="">No releases available for this device</option>';
+                select.disabled = true;
+                hideFiles();
+                return;
+            }
+
+            releasesWithDevice.forEach((release, index) => {
+                const option = document.createElement('option');
+                option.value = releases.indexOf(release); // Use original index
+                option.textContent = release.name || release.tag_name;
+                if (release.prerelease) option.textContent += ' (Pre-release)';
+                select.appendChild(option);
+            });
+        }
+
+        function onVersionChange(e) {
+            const index = e.target.value;
+
+            if (!index || !currentDevice) {
+                hideFiles();
+                return;
+            }
+
+            currentRelease = releases[index];
+            displayFiles(currentDevice);
+        }
+
+        function displayFiles(device) {
+            const fileList = document.getElementById('fileList');
+            const noFilesMsg = document.getElementById('noFilesMsg');
+            const loadingMsg = document.getElementById('loadingMsg');
+
+            // Find matching asset
+            const assets = currentRelease.assets.filter(asset =>
+                asset.name.includes(device)
+            );
+
+            loadingMsg.style.display = 'none';
+
+            if (assets.length === 0) {
+                fileList.classList.remove('visible');
+                noFilesMsg.classList.add('visible');
+                return;
+            }
+
+            noFilesMsg.classList.remove('visible');
+            fileList.innerHTML = '';
+
+            assets.forEach(asset => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = asset.name;
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = asset.browser_download_url;
+                downloadLink.className = 'download-btn';
+                downloadLink.textContent = 'Download';
+                downloadLink.download = asset.name;
+
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(downloadLink);
+                fileList.appendChild(fileItem);
+            });
+
+            fileList.classList.add('visible');
+        }
+
+        function hideFiles() {
+            document.getElementById('fileList').classList.remove('visible');
+            document.getElementById('noFilesMsg').classList.remove('visible');
+            document.getElementById('loadingMsg').style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorBox = document.getElementById('errorBox');
+            errorBox.textContent = message;
+            errorBox.classList.add('visible');
+        }
+    </script>
+</body>
+</html>
