@@ -222,39 +222,39 @@
 
     <main>
         <div class="intro">
-            <h2>FIRMWARE DOWNLOADS</h2>
-            <p class="subtitle">Select your device and download the firmware</p>
+            <h2>DOWNLOAD FIRMWARE</h2>
+            <p class="subtitle">Seleziona il dispositivo e scarica il firmware</p>
 
             <div class="info-box" id="infoBox">
-                <strong>ℹ️ Note:</strong> Select your device model first, then choose the firmware version.
+                <strong>ℹ️ Nota:</strong> Seleziona prima il modello del dispositivo, poi scegli la versione firmware.
             </div>
 
             <div class="error" id="errorBox"></div>
 
             <div class="selector">
-                <label for="deviceSelect">Device Model</label>
+                <label for="deviceSelect">Modello Dispositivo</label>
                 <select id="deviceSelect">
-                    <option value="">-- Select Device --</option>
+                    <option value="">-- Seleziona Dispositivo --</option>
                 </select>
             </div>
 
             <div class="selector">
-                <label for="versionSelect">Firmware Version</label>
+                <label for="versionSelect">Versione Firmware</label>
                 <select id="versionSelect" disabled>
-                    <option value="">Select a device first</option>
+                    <option value="">Seleziona prima un dispositivo</option>
                 </select>
             </div>
 
             <div class="download-section">
-                <div class="loading" id="loadingMsg">Select a device and version to see available downloads</div>
-                <div class="no-files" id="noFilesMsg">No firmware files found for this combination</div>
+                <div class="loading" id="loadingMsg">Seleziona dispositivo e versione per vedere i download disponibili</div>
+                <div class="no-files" id="noFilesMsg">Nessun firmware trovato per questa combinazione</div>
                 <div class="file-list" id="fileList"></div>
             </div>
         </div>
     </main>
 
     <script>
-        const REPO_OWNER = 'TommasoLencioni';
+        const REPO_OWNER = 'emp3r0r7';
         const REPO_NAME = 'DarkMesh-Firmware';
         const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`;
 
@@ -274,16 +274,16 @@
         async function loadReleases() {
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error('Failed to fetch releases');
+                if (!response.ok) throw new Error('Errore nel caricamento release');
 
                 releases = await response.json();
 
                 if (releases.length === 0) {
-                    showError('No releases found. Please create a release first.');
+                    showError('Nessuna release trovata.');
                     return;
                 }
             } catch (error) {
-                showError(`Error loading releases: ${error.message}`);
+                showError(`Errore caricamento release: ${error.message}`);
             }
         }
 
@@ -310,7 +310,7 @@
 
         function populateDeviceSelect() {
             const select = document.getElementById('deviceSelect');
-            select.innerHTML = '<option value="">-- Select Device --</option>';
+            select.innerHTML = '<option value="">-- Seleziona Dispositivo --</option>';
 
             // Sort devices alphabetically
             const sortedDevices = Array.from(availableDevices).sort();
@@ -323,7 +323,7 @@
             });
 
             if (sortedDevices.length === 0) {
-                select.innerHTML = '<option value="">No devices found</option>';
+                select.innerHTML = '<option value="">Nessun dispositivo trovato</option>';
                 select.disabled = true;
             }
         }
@@ -339,7 +339,7 @@
 
             if (!currentDevice) {
                 versionSelect.disabled = true;
-                versionSelect.innerHTML = '<option value="">Select a device first</option>';
+                versionSelect.innerHTML = '<option value="">Seleziona prima un dispositivo</option>';
                 hideFiles();
                 return;
             }
@@ -350,7 +350,7 @@
 
         function populateVersionsForDevice(device) {
             const select = document.getElementById('versionSelect');
-            select.innerHTML = '<option value="">-- Select Version --</option>';
+            select.innerHTML = '<option value="">-- Seleziona Versione --</option>';
 
             // Filter releases that have assets for this device
             const releasesWithDevice = releases.filter(release =>
@@ -358,7 +358,7 @@
             );
 
             if (releasesWithDevice.length === 0) {
-                select.innerHTML = '<option value="">No releases available for this device</option>';
+                select.innerHTML = '<option value="">Nessuna release disponibile per questo dispositivo</option>';
                 select.disabled = true;
                 hideFiles();
                 return;
